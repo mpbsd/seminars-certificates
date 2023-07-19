@@ -14,6 +14,7 @@ seminar = {
             "mm": r"abril",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     1: {
         "name": r"Willian Isao Tokura",
@@ -23,6 +24,7 @@ seminar = {
             "mm": r"abril",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     2: {
         "name": r"Alejandra Munoz",
@@ -32,6 +34,7 @@ seminar = {
             "mm": r"maio",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     3: {
         "name": r"Marcelo Bezerra Barboza",
@@ -41,6 +44,7 @@ seminar = {
             "mm": r"maio",
             "yy": r"2023",
         },
+        "addr": r"bezerra@ufg.br",
     },
     4: {
         "name": r"Armando Vasquez Corro",
@@ -50,6 +54,7 @@ seminar = {
             "mm": r"maio",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     5: {
         "name": r"Hudson Pina",
@@ -59,6 +64,7 @@ seminar = {
             "mm": r"maio",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     6: {
         "name": r"Douglas Hilário",
@@ -68,6 +74,7 @@ seminar = {
             "mm": r"maio",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     7: {
         "name": r"Ronaldo Garcia",
@@ -77,6 +84,7 @@ seminar = {
             "mm": r"junho",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     8: {
         "name": r"Adriano Cavalcante",
@@ -86,6 +94,7 @@ seminar = {
             "mm": r"junho",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     9: {
         "name": r"Fabio Nunes",
@@ -95,6 +104,7 @@ seminar = {
             "mm": r"junho",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     10: {
         "name": r"Hiuri Fellipe",
@@ -104,6 +114,7 @@ seminar = {
             "mm": r"junho",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     11: {
         "name": r"Adriana Araújo Cintra",
@@ -113,6 +124,7 @@ seminar = {
             "mm": r"julho",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     12: {
         "name": r"Valter Borges",
@@ -122,6 +134,7 @@ seminar = {
             "mm": r"julho",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     13: {
         "name": r"Raquel Pereira de Araújo",
@@ -131,6 +144,7 @@ seminar = {
             "mm": r"julho",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     14: {
         "name": r"",
@@ -140,6 +154,7 @@ seminar = {
             "mm": r"julho",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     15: {
         "name": r"Thamara Policarpo",
@@ -149,6 +164,7 @@ seminar = {
             "mm": r"agosto",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     16: {
         "name": r"Miriam Cristina",
@@ -158,6 +174,7 @@ seminar = {
             "mm": r"agosto",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     17: {
         "name": r"Alejandra Munoz",
@@ -167,6 +184,7 @@ seminar = {
             "mm": r"agosto",
             "yy": r"2023",
         },
+        "addr": r"",
     },
     18: {
         "name": r"Guilherme Paes",
@@ -176,6 +194,7 @@ seminar = {
             "mm": r"agosto",
             "yy": r"2023",
         },
+        "addr": r"",
     },
 }
 
@@ -185,13 +204,36 @@ def seminarcmd(name, talk, day, month, year):
     return latexcmd
 
 
+def mailcmd(name, talk, day, month, year, addr, cert):
+    body = r"""
+    Olá, {}!
+
+    Eis aqui o certificado do seu seminário intitulado
+
+      {},
+
+    ministrado no dia {} de {} de {}.
+
+    Agradecemos imensamente pela participação.
+
+    Atenciosamente,
+    Marcelo Bezerra
+    """.format(name, talk, day, month, year)
+    with open("mail.txt", "w") as f:
+        print(body, file=f)
+    subject = r"certificado seminario de geometria"
+    muttcmd = r"mutt -s '{}' -a {} -- {} < mail.txt"
+    return muttcmd.format(subject, cert, addr)
+
+
 def main():
     # for k in seminar.keys():
-    for k in [1, 3]:
+    for k in [3]:
         if seminar[k]["talk"]:
             name = seminar[k]["name"]
             talk = seminar[k]["talk"]
             date = seminar[k]["date"]
+            addr = seminar[k]["addr"]
             cert = "pdf/cert_{}_{}_{}_{}.pdf".format(
                 unidecode.unidecode(name).lower().replace(" ", "_"),
                 date["dd"],
@@ -206,6 +248,11 @@ def main():
             os.system("xelatex main")
             os.system("xelatex main")
             os.system("mv main.pdf {}".format(cert))
+            # os.system(
+            #     mailcmd(
+            #         name, talk, date["dd"], date["mm"], date["yy"], addr, cert
+            #     )
+            # )
 
 
 if __name__ == "__main__":
