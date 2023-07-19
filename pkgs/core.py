@@ -187,12 +187,12 @@ def seminarcmd(name, talk, day, month, year):
 
 def main():
     # for k in seminar.keys():
-    for k in [1]:
+    for k in [1, 3]:
         if seminar[k]["talk"]:
             name = seminar[k]["name"]
             talk = seminar[k]["talk"]
             date = seminar[k]["date"]
-            cert = "cert_{}_{}_{}_{}.pdf".format(
+            cert = "pdf/cert_{}_{}_{}_{}.pdf".format(
                 unidecode.unidecode(name).lower().replace(" ", "_"),
                 date["dd"],
                 date["mm"],
@@ -205,7 +205,7 @@ def main():
                 )
             os.system("xelatex main")
             os.system("xelatex main")
-            os.system("mv main.pdf pdf/%s" % cert)
+            os.system("mv main.pdf {}".format(cert))
 
 
 if __name__ == "__main__":
