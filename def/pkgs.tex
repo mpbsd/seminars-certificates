@@ -1,0 +1,29 @@
+\usepackage[english,portuguese]{babel}
+
+\usepackage{background}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{scalefnt}
+\usepackage{xcolor}
+
+\geometry{
+  bottom = 1.00cm,
+  left   = 1.00cm,
+  right  = 1.00cm,
+  top    = 1.50cm,
+}
+
+\graphicspath{{./fig/}}
+
+\backgroundsetup{
+  angle    = 0,
+  color    = black,
+  opacity  = 1,
+  scale    = 1,
+  contents = {
+    \includegraphics[
+      height = \paperheight,
+      width  = \paperwidth
+    ]{background/paper}
+  }
+}
