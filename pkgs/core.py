@@ -158,7 +158,7 @@ seminar = {
     },
     15: {
         "name": r"Thamara Policarpo",
-        "talk": r"",
+        "talk": r"Static perfect fluid space and closed minimal hypersufaces",
         "date": {
             "dd": r"1",
             "mm": r"agosto",
@@ -168,7 +168,7 @@ seminar = {
     },
     16: {
         "name": r"Miriam Cristina",
-        "talk": r"",
+        "talk": r"Fluxo Redutor de Curvas",
         "date": {
             "dd": r"8",
             "mm": r"agosto",
@@ -228,12 +228,12 @@ def mailcmd(name, talk, day, month, year, addr, cert):
 
 def main():
     # for k in seminar.keys():
-    for k in range(17):
+    for k in [15, 16]:
         if seminar[k]["talk"]:
             name = seminar[k]["name"]
             talk = seminar[k]["talk"]
             date = seminar[k]["date"]
-            addr = seminar[k]["addr"]
+            # addr = seminar[k]["addr"]
             cert = "pdf/cert_{}_{}_{}_{}.pdf".format(
                 unidecode.unidecode(name).lower().replace(" ", "_"),
                 date["dd"],
