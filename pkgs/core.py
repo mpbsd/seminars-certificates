@@ -44,7 +44,7 @@ seminar = {
             "mm": r"maio",
             "yy": r"2023",
         },
-        "addr": r"bezerra@ufg.br",
+        "addr": r"",
     },
     4: {
         "name": r"Armando Vasquez Corro",
