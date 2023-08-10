@@ -228,7 +228,7 @@ def mailcmd(name, talk, day, month, year, addr, cert):
 
 def main():
     # for k in seminar.keys():
-    for k in [15, 16]:
+    for k in [16]:
         if seminar[k]["talk"]:
             name = seminar[k]["name"]
             talk = seminar[k]["talk"]
