@@ -1,10 +1,10 @@
-TEX = xelatex
-OPR = $(shell uname -s)
+TEXENGINE = xelatex
+OPRSYSTEM = $(shell uname -s)
 
-ifeq ($(OPR), Darwin)
-	DOC = open -a Preview
+ifeq ($(OPRSYSTEM), Darwin)
+	DOCVIEWER = open -a Preview
 else
-	DOC = zathura
+	DOCVIEWER = zathura
 endif
 
 build:
