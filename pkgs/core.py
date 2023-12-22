@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
+# -*- coding:utf-8 -*-
 
 
 import os
 import unidecode
 
 
+# seminars {{{
 seminar = {
     0: {
         "name": r"Ilton Menezes",
@@ -38,13 +40,13 @@ seminar = {
     },
     3: {
         "name": r"Marcelo Bezerra Barboza",
-        "talk": r"A formula of Simons' type and hypersurface with constant mean curvature",
+        "talk": r"A formula of Simons' type and hypersurfaces with constant mean curvature",
         "date": {
             "dd": r"9",
             "mm": r"maio",
             "yy": r"2023",
         },
-        "addr": r"",
+        "addr": r"bezerra@ufg.br",
     },
     4: {
         "name": r"Armando Vasquez Corro",
@@ -197,62 +199,78 @@ seminar = {
         "addr": r"",
     },
 }
+# }}}
 
 
-def seminarcmd(name, talk, day, month, year):
-    latexcmd = r"\seminar{%s}{%s}{%s}{%s}{%s}" % (name, talk, day, month, year)
-    return latexcmd
+# set_metadata {{{
+def set_metadata(name, talk, day, month, year):
+    cmd = r"\seminar{%s}{%s}{%s}{%s}{%s}" % (name, talk, day, month, year)
+    with open("auth.tex", "w") as f:
+        print(cmd, file=f)
 
 
-def mailcmd(name, talk, day, month, year, addr, cert):
+# }}}
+
+
+# generate_pdf {{{
+def generate_pdf(name, talk, date, addr):
+    os.system("xelatex main; xelatex main")
+    renaming = "pdf/cert_{}_{}_{}_{}.pdf".format(
+        unidecode.unidecode(name).lower().replace(" ", "_"),
+        date["dd"],
+        date["mm"],
+        date["yy"],
+    )
+    os.system(r"mv main.pdf {}".format(renaming))
+    return renaming
+
+
+# }}}
+
+
+# sendmail {{{
+def sendmail(name, talk, day, month, year, addr, cert):
     body = r"""
     Olá, {}!
 
-    Eis aqui o certificado do seu seminário intitulado
+    Eis aqui o certificado do seu seminário de geometria, intitulado
 
       {},
 
-    ministrado no dia {} de {} de {}.
+    o qual foi ministrado em {} de {} de {}.
 
     Agradecemos imensamente pela participação.
 
     Atenciosamente,
     Marcelo Bezerra
-    """.format(name, talk, day, month, year)
+    """.format(
+        name, talk, day, month, year
+    )
     with open("mail.txt", "w") as f:
         print(body, file=f)
-    subject = r"certificado seminario de geometria"
-    muttcmd = r"mutt -s '{}' -a {} -- {} < mail.txt"
-    return muttcmd.format(subject, cert, addr)
+    subject = r"certificado de apresentação do seu seminário de geometria"
+    muttcmd = r"mutt -s '{}' -a {} -- {} < mail.txt".format(
+        subject, cert, addr
+    )
+    os.system(muttcmd)
+
+
+# }}}
 
 
 def main():
     # for k in seminar.keys():
-    for k in [16]:
+    for k in [3]:
         if seminar[k]["talk"]:
             name = seminar[k]["name"]
             talk = seminar[k]["talk"]
             date = seminar[k]["date"]
-            # addr = seminar[k]["addr"]
-            cert = "pdf/cert_{}_{}_{}_{}.pdf".format(
-                unidecode.unidecode(name).lower().replace(" ", "_"),
-                date["dd"],
-                date["mm"],
-                date["yy"],
+            addr = seminar[k]["addr"]
+            set_metadata(name, talk, date["dd"], date["mm"], date["yy"])
+            cert = generate_pdf(name, talk, date, addr)
+            sendmail(
+                name, talk, date["dd"], date["mm"], date["yy"], addr, cert
             )
-            with open("auth.tex", "w") as f:
-                print(
-                    seminarcmd(name, talk, date["dd"], date["mm"], date["yy"]),
-                    file=f,
-                )
-            os.system("xelatex main")
-            os.system("xelatex main")
-            os.system("mv main.pdf {}".format(cert))
-            # os.system(
-            #     mailcmd(
-            #         name, talk, date["dd"], date["mm"], date["yy"], addr, cert
-            #     )
-            # )
 
 
 if __name__ == "__main__":
