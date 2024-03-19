@@ -1,14 +1,18 @@
-TEXENGINE = xelatex
-OPRSYSTEM = $(shell uname -s)
+TEX_ENGINE = xelatex
+OPR_SYSTEM = $(shell uname -s)
 
-ifeq ($(OPRSYSTEM), Darwin)
-	DOCVIEWER = open -a Preview
+ifeq ($(OPR_SYSTEM), Darwin)
+	DOC_VIEWER = open -a Preview
 else
-	DOCVIEWER = zathura
+	DOC_VIEWER = zathura
 endif
 
 build:
 	python3 -m pkgs.core
+
+black:
+	isort pkgs/core.py
+	black -l 79 pkgs/core.py
 
 clean:
 	find . -type f -name main.aux    | xargs rm -rf
@@ -23,4 +27,4 @@ ready:
 	pip install -r requirements.txt; \
 	deactivate
 
-.PHONY: build clean ready
+.PHONY: build black clean ready
