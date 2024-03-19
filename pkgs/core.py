@@ -36,15 +36,14 @@ def authorship(author, title, year, month, day):  # {{{
 
 
 def genpdf(author, title, year, month, day):  # {{{
-    os.system("xelatex main")
-    os.system("xelatex main")
-    newname = "pdf/cert_{year}_{month}_{day}.pdf".format(
+    os.system("xelatex main && xelatex main")
+    pdfname = "cert_{year}_{month}_{day}.pdf".format(
         year=year,
         month=month,
         day=day,
     )
-    os.system(r"mv main.pdf {newname}".format(newname=newname))
-    return newname  # }}}
+    os.system(r"mv main.pdf pdf/{pdfname}".format(pdfname=pdfname))
+    return pdfname  # }}}
 
 
 def sendmail(author, address, title, year, month, day, cert):  # {{{
