@@ -1,20 +1,8 @@
 [
     {
-        "author": "Ilton Menezes",
-        "address": "ilton@ufbo.edu.br",
-        "title": "Rigidity results on $\\rho$-Einstein solitons with zero scalar curvature",
-        "date": "2023-04-03"
-    },
-    {
         "author": "Willian Isao Tokura",
-        "address": "tokura@ufgd.edu.br",
+        "address": "tokura@server.edu.br",
         "title": "Yamabe solitons imersos em formas espaciais",
         "date": "2023-04-25"
-    },
-    {
-        "author": "Marcelo Bezerra Barboza",
-        "address": "bezerra@ufg.br",
-        "title": "A formula of Simons' type and hypersurfaces with constant mean curvature",
-        "date": "2023-05-09"
     }
 ]

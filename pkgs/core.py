@@ -6,7 +6,7 @@ import json
 import os
 import re
 
-re_date = re.compile(r"(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")
+date = re.compile(r"(\d{4})-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])")
 
 
 def authorship(author, title, year, month, day):  # {{{
@@ -73,13 +73,13 @@ def sendmail(author, address, title, year, month, day, cert):  # {{{
 
 
 def main():
-    with open("pkgs/data.json", "r") as rfile:
-        jfile = json.load(rfile)
-        for talk in jfile:
-            date = re_date.match(talk["date"])
-            Y = date.group(1)
-            M = date.group(2)
-            D = date.group(3)
+    with open("pkgs/data.json", "r") as raw_json_file:
+        json_file = json.load(raw_json_file)
+        for talk in json_file:
+            d = date.match(talk["date"])
+            Y = d.group(1)
+            M = d.group(2)
+            D = d.group(3)
             authorship(talk["author"], talk["title"], Y, M, D)
             genpdf(talk["author"], talk["title"], Y, M, D)
             # sendmail(
